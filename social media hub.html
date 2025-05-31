@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Hub with Search</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        
+        #login-section {
+            padding: 50px 0;
+            text-align: center;
+            min-height: 100vh;
+            background-color: orange;
+            padding-top:100px;
+        }
+
+        #profile-section {
+            display: none;
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUZZmnWIy0BFTPAJd8ZqAPcMZnNvZQ1ATm2g&s') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            padding: 10px 0;
+            min-height: 100vh;
+            background-color: orange;
+        }
+
+        .social-media-icons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 10px;
+        }
+
+        .icon {
+            width: 60px;
+            height: 60px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .icon i {
+            font-size: 36px;
+            color: #333;
+        }
+
+        .icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        #play-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            transition: background-color 0.3s ease;
+        }
+
+        #play-btn i {
+            font-size: 24px;
+        }
+
+        #play-btn:hover {
+            background-color: #ff9900;
+        }
+
+        #menu {
+            position: fixed;
+            bottom: 100px;
+            left: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 10px;
+            display: none;
+            z-index: 100;
+        }
+
+        .menu-option {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #ff9900;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .menu-option:hover {
+            background-color: #ff7700;
+        }
+
+        #trending {
+            position: fixed;
+            top: 25px;
+            left: 50%;
+            text-align: center;
+            transform: translateX(-50%);
+            color: white;
+            display: none;
+            font-size: 10px;
+            z-index: 1000;
+            transition: opacity 0.3s ease;
+            padding-top: 60px;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+        }
+
+        #urlInput {
+            width: 60%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding-top:10px;
+            font-style: italic;
+        }
+
+        #goButton {
+            padding: 8px 12px;
+            margin-left: 10px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            padding-top:10px;
+        }
+
+        #goButton:hover {
+            background-color: #0056b3;
+        }
+
+
+        /*desktop version*/
+    @media (min-width: 992px) {
+        .column-lg-4 {
+            float: left;
+           /* width: 33.33%;*/
+           width: 100%;
+        }
+    }
+
+    /*tablet version*/
+    @media (min-width: 768px) and (max-width: 991px) {
+        .colmn-md-6 {
+            float: left;
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .colmn-md-12 {
+            float: left;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+    /*mobile version*/
+    @media (max-width: 767px) {
+        .colmn-sm-12 {
+            float: left;
+            width: 100%;
+        }
+    }
+
+
+
+   
+
+    </style>
+</head>
+<body class="column-lg-4 colmn-md-12 colmn-sm-12">
+
+
+
+    <div id="login-section" >
+        <h1 style="font-family: 'Poppins', san-serif;"><b>Welcome to Social Media Hub</b></h1>
+        <button class="btn btn-primary" onclick="login()">Explore More</button>
+        <button class="btn btn-secondary" onclick="skipLogin()">Quick Setup</button>
+    </div>
+
+
+
+    <div id="profile-section">
+        <div class="toolbar">
+            <input type="text" id="urlInput" placeholder="Search everything....">
+            <button id="goButton">Go</button>
+        </div>
+        <div id="trending">Trending: Loading...</div>
+        <div class="social-media-icons" id="social-media-icons"></div>
+    </div>
+
+    <div id="play-btn" onclick="toggleMenu()">
+        <i class="fas fa-gamepad"></i>
+    </div>
+
+    <div id="menu">
+        <div class="menu-option" onclick="toggleFeatures()">Customizable</div>
+        <div class="menu-option" onclick="togglePlayGame()">Play Games</div>
+    </div>
+
+    <script>
+        const socialMediaLinks = [
+            { url: 'https://www.facebook.com', icon: 'fab fa-facebook-f' },
+            { url: 'https://www.twitter.com', icon: 'fab fa-twitter' },
+            { url: 'https://www.instagram.com', icon: 'fab fa-instagram' },
+            { url: 'https://www.linkedin.com', icon: 'fab fa-linkedin-in' },
+            { url: 'https://www.youtube.com', icon: 'fab fa-youtube' },
+            { url: 'https://www.snapchat.com', icon: 'fab fa-snapchat-ghost' },
+            { url: 'https://www.pinterest.com', icon: 'fab fa-pinterest-p' },
+            { url: 'https://www.tiktok.com', icon: 'fab fa-tiktok' },
+            { url: 'https://www.reddit.com', icon: 'fab fa-reddit-alien' },
+            { url: 'https://www.whatsapp.com', icon: 'fab fa-whatsapp' },
+            { url: 'https://www.telegram.org', icon: 'fab fa-telegram-plane' },
+            { url: 'https://www.discord.com', icon: 'fab fa-discord' },
+            { url: 'https://www.vimeo.com', icon: 'fab fa-vimeo-v' },
+            { url: 'https://www.tumblr.com', icon: 'fab fa-tumblr' },
+            { url: 'https://www.flickr.com', icon: 'fab fa-flickr' },
+            { url: 'https://www.medium.com', icon: 'fab fa-medium-m' },
+            { url: 'https://www.quora.com', icon: 'fab fa-quora' },
+            { url: 'https://www.github.com', icon: 'fab fa-github' },
+            { url: 'https://www.dribbble.com', icon: 'fab fa-dribbble' }
+        ];
+
+        document.getElementById('goButton').addEventListener('click', function() {
+            let input = document.getElementById('urlInput').value;
+
+            if (input) {
+                if (!input.startsWith('http://') && !input.startsWith('https://')) {
+                    input = 'https://www.google.com/search?q=' + encodeURIComponent(input);
+                }
+                // Social media icons remain visible
+                window.open(input, '_blank'); // Open the search results in a new tab
+            }
+        });
+
+        document.getElementById('urlInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('goButton').click();
+            }
+        });
+
+        function login() {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('profile-section').style.display = 'block';
+            document.getElementById('play-btn').style.display = 'flex';
+            document.getElementById('trending').style.display = 'block';
+            loadSocialMediaIcons(socialMediaLinks.length);
+            startTrending();
+        }
+
+        function skipLogin() {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('profile-section').style.display = 'block';
+            document.getElementById('play-btn').style.display = 'flex';
+            document.getElementById('trending').style.display = 'block';
+            loadSocialMediaIcons(5);
+            startTrending();
+        }
+
+        function loadSocialMediaIcons(count) {
+            const iconsContainer = document.getElementById('social-media-icons');
+            iconsContainer.innerHTML = '';
+            for (let i = 0; i < count; i++) {
+                const { url, icon } = socialMediaLinks[i];
+                iconsContainer.innerHTML += `
+                    <div class="icon">
+                        <a href="${url}" target="_blank">
+                            <i class="${icon}"></i>
+                        </a>
+                    </div>
+                `;
+            }
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('menu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function toggleFeatures() {
+            alert("Customizable feature clicked!");
+        }
+
+        function togglePlayGame() {
+            alert("Play Games feature clicked!");
+        }
+
+        function startTrending() {
+            const trendingElement = document.getElementById('trending');
+            const trendingTopics = [
+                'Trending: New iPhone Released!',
+                'Trending: Climate Change Summit!',
+                'Trending: SpaceX Launch Success!',
+                'Trending: AI Revolution!',
+                'Trending: Global Stock Market Update!'
+            ];
+
+            let trendingIndex = 0;
+            setInterval(() => {
+                trendingElement.textContent = trendingTopics[trendingIndex];
+                trendingIndex = (trendingIndex + 1) % trendingTopics.length;
+            }, 3000); // Update every 3 seconds
+        }
+
+        // Hide trending section on scroll
+        window.addEventListener('scroll', () => {
+            const trendingElement = document.getElementById('trending');
+            if (window.scrollY > 0) {
+                trendingElement.style.opacity = 0;
+            } else {
+                trendingElement.style.opacity = 1;
+            }
+        });
+
+        // Change the icon every second
+        let iconIndex = 0;
+        const icons = [
+            "fas fa-gamepad",   // Game icon
+            "fas fa-cogs"       // Settings icon
+        ];
+
+        setInterval(() => {
+            const playBtnIcon = document.querySelector("#play-btn i");
+            playBtnIcon.className = icons[iconIndex];  // Update icon
+            iconIndex = (iconIndex + 1) % icons.length;  // Cycle through icons
+        }, 1000); // Update every second
+    </script>
+</body>
+</html>
